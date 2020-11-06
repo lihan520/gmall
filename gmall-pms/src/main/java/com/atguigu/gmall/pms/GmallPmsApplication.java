@@ -12,14 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan("com.atguigu.gmall.pms.mapper")
 @EnableSwagger2
 @RefreshScope
-public class
-
-
-
-
-
-
-GmallPmsApplication {
+public class GmallPmsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GmallPmsApplication.class, args);

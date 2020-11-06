@@ -2,9 +2,13 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.Query;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +37,21 @@ public class AttrController {
 
     @Autowired
     private AttrService attrService;
+    @GetMapping("category/{cid}")
+    @ApiOperation("分类查询")
+    public ResponseVo<List<AttrEntity>> queryAttrByCid(@PathVariable("cid") Long cid,
+                                                       @RequestParam(value = "type",required = false)Integer type,
+                                                       @RequestParam(value="searchType",required = false) Integer searchType){
+        List<AttrEntity> attrEntities=this.attrService.queryAttrByCid(cid,type,searchType);
+        return ResponseVo.ok(attrEntities);
 
+    }
+    @GetMapping("/group/{gid}")
+    @ApiOperation("查詢組下的規格參數")
+    public ResponseVo<List<AttrEntity>> queryAttrEntities(@PathVariable("gid") Long gid){
+        List<AttrEntity> attrEntities = this.attrService.list(new QueryWrapper<AttrEntity>().eq("group_id",gid));
+        return ResponseVo.ok(attrEntities);
+    }
     /**
      * 列表
      */

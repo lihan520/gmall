@@ -37,6 +37,13 @@ public class SpuAttrValueController {
     /**
      * 列表
      */
+    @GetMapping("search/attr/{spuId}")
+    public ResponseVo<List<SpuAttrValueEntity>> querySpuAttrValueBySpuIdAndCid(
+            @PathVariable("spuId") Long spuId,
+            @RequestParam("cid") Long cid){
+        List<SpuAttrValueEntity> spuAttrValueEntities=this.spuAttrValueService.querySpuAttrValueBySpuIdAndCid(spuId,cid);
+        return ResponseVo.ok(spuAttrValueEntities);
+    }
     @GetMapping
     @ApiOperation("分页查询")
     public ResponseVo<PageResultVo> querySpuAttrValueByPage(PageParamVo paramVo){
