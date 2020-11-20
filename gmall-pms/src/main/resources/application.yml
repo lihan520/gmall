@@ -38,3 +38,11 @@ spring:
     alibaba:
       seata:
         tx-service-group: pms-service-fescar-service-group
+  rabbitmq:
+    host: 192.168.174.130
+    virtual-host: /lihan
+    port: 5672
+    username: lihan
+    password: lihan
+    publisher-confirm-type: correlated
+    publisher-returns: true

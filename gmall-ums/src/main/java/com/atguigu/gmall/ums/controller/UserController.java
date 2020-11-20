@@ -30,9 +30,24 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 @RestController
 @RequestMapping("ums/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
+    @GetMapping("query")
+    public ResponseVo<UserEntity>queryUser(@RequestParam("loginName")String loginName,@RequestParam("password")String password){
+        UserEntity userEntity=this.userService.queryUser(loginName,password);
+        return ResponseVo.ok(userEntity);
+    }
+
+    @PostMapping("register")
+    public ResponseVo register (UserEntity userEntity,@RequestParam("code")String code){
+        this.userService.register(userEntity,code);
+        return ResponseVo.ok();
+    }
+    @GetMapping("check/{data}/{type}")
+    public ResponseVo<Boolean> checkData(@PathVariable("data")String data,@PathVariable("type")Integer type){
+        Boolean flag=this.userService.checkData(data,type);
+        return ResponseVo.ok(flag);
+    }
 
     /**
      * 列表

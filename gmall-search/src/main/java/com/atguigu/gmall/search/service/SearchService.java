@@ -245,14 +245,16 @@ public class SearchService {
         Integer sort = paramVo.getSort();
         String field="";
         SortOrder order=null;
-        switch (sort){
-            case 1: field="price"; order=SortOrder.ASC; break;
-            case 2: field="price"; order=SortOrder.DESC; break;
-            case 3: field="sales"; order=SortOrder.ASC; break;
-            case 4: field="sales"; order=SortOrder.DESC; break;
-            default: field="_score"; order=SortOrder.DESC;break;
+        if(sort!=null){
+            switch (sort){
+                case 1: field="price"; order=SortOrder.ASC; break;
+                case 2: field="price"; order=SortOrder.DESC; break;
+                case 3: field="sales"; order=SortOrder.ASC; break;
+                case 4: field="sales"; order=SortOrder.DESC; break;
+                default: field="_score"; order=SortOrder.DESC;break;
+            }
+            sourceBuilder.sort(field,order);
         }
-        sourceBuilder.sort(field,order);
         //3. 构建分页
         Integer pageNum = paramVo.getPageNum();
         Integer pageSize = paramVo.getPageSize();

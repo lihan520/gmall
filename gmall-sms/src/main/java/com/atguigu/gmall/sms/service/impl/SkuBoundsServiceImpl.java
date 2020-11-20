@@ -4,11 +4,15 @@ import com.atguigu.gmall.sms.entity.SkuFullReductionEntity;
 import com.atguigu.gmall.sms.entity.SkuLadderEntity;
 import com.atguigu.gmall.sms.mapper.SkuFullReductionMapper;
 import com.atguigu.gmall.sms.mapper.SkuLadderMapper;
+import com.atguigu.sms.vo.ItemSaleVo;
 import com.atguigu.sms.vo.SkuSaleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -62,5 +66,29 @@ private SkuLadderMapper skuLadderMapper;
         BeanUtils.copyProperties(skuSaleVo,skuLadderEntity);
         skuLadderEntity.setAddOther(skuSaleVo.getLadderAddOther());
         this.skuLadderMapper.insert(skuLadderEntity);
+    }
+
+    @Override
+    public List<ItemSaleVo> querySalesBySkuId(Long skuId) {
+        List<ItemSaleVo> itemSaleVos=new ArrayList<>();
+        //查询积分信息
+        SkuBoundsEntity skuBoundsEntity = this.getOne(new QueryWrapper<SkuBoundsEntity>().eq("sku_id", skuId));
+        ItemSaleVo bounds = new ItemSaleVo();
+        bounds.setType("积分");
+        bounds.setDesc("送"+skuBoundsEntity.getGrowBounds()+"成长积分，送"+skuBoundsEntity.getBuyBounds()+"购物积分");
+        itemSaleVos.add(bounds);
+        //查询满减信息
+        SkuFullReductionEntity fullReductionEntity = this.skuFullReductionMapper.selectOne(new QueryWrapper<SkuFullReductionEntity>().eq("sku_id", skuId));
+        ItemSaleVo reduction=new ItemSaleVo();
+        reduction.setType("满减");
+        reduction.setDesc("满"+fullReductionEntity.getFullPrice()+"，减"+fullReductionEntity.getReducePrice());
+        itemSaleVos.add(reduction);
+        //查询打折信息
+        SkuLadderEntity ladderEntity = this.skuLadderMapper.selectOne(new QueryWrapper<SkuLadderEntity>().eq("sku_id", skuId));
+        ItemSaleVo ladders=new ItemSaleVo();
+        ladders.setType("打折");
+        ladders.setDesc("满"+ladderEntity.getFullCount()+"件，打"+ladderEntity.getDiscount().divide(new BigDecimal(10))+"折");
+        itemSaleVos.add(ladders);
+        return itemSaleVos;
     }
 }

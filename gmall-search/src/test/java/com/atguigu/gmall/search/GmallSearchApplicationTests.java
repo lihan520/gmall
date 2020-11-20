@@ -123,7 +123,7 @@ private GmallPmsClient pmsClient;
             });
             pageSize=spuEntities.size();
             pageNum++;
-        }while (pageNum==100);
+        }while (pageSize==100);
     }
 
 }

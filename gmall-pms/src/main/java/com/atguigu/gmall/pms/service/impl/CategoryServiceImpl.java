@@ -3,6 +3,8 @@ package com.atguigu.gmall.pms.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -43,4 +45,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         return this.categoryMapper.selectList(wrapper);
     }
 
+    @Override
+    public List<CategoryEntity> queryCategoriesWithSub(Long pid) {
+        return this.categoryMapper.queryCategoriesByPid(pid);
+    }
+
+    @Override
+    public List<CategoryEntity> queryAllCategoriesByCid3(Long cid) {
+        //查询三级分类
+        CategoryEntity cid3 = this.categoryMapper.selectOne(new QueryWrapper<CategoryEntity>().eq("id", cid));
+        //查询二级分类
+        CategoryEntity cid2 = this.categoryMapper.selectOne(new QueryWrapper<CategoryEntity>().eq("id", cid3.getParentId()));
+        //查询一级分类
+        CategoryEntity cid1 = this.categoryMapper.selectOne(new QueryWrapper<CategoryEntity>().eq("id", cid2.getParentId()));
+        return Arrays.asList(cid1,cid2,cid3);
+    }
 }
