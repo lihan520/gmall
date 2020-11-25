@@ -2,6 +2,7 @@ package com.atguigu.gmall.wms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.wms.vo.SkuLockVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,9 +32,13 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 @RestController
 @RequestMapping("wms/waresku")
 public class WareSkuController {
-
     @Autowired
     private WareSkuService wareSkuService;
+    @PostMapping("check/lock/{orderToken}")
+    public ResponseVo<List<SkuLockVo>> checkAndLock(@RequestBody List<SkuLockVo> lockVos,@PathVariable("orderToken") String orderToken){
+        List<SkuLockVo> skuLockVos=this.wareSkuService.checkAndLock(lockVos,orderToken);
+        return ResponseVo.ok(skuLockVos);
+    }
     @GetMapping("/sku/{skuId}")
     public ResponseVo<List<WareSkuEntity>> queryStockBySkuId(@PathVariable("skuId") Long skuId){
         List<WareSkuEntity> wareSkuEntities = this.wareSkuService.list(new QueryWrapper<WareSkuEntity>().eq("sku_id", skuId));

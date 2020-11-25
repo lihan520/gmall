@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ItemController {
     @Autowired
     private ItemService itemService;
-    @GetMapping("skuId/{skuId}.html")
+    @GetMapping("{skuId}.html")
     public String loadData(@PathVariable("skuId")Long skuId, Model model){
         ItemVo itemVo=this.itemService.loadData(skuId);
         model.addAttribute("itemVo",itemVo);

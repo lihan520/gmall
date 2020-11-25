@@ -1,5 +1,5 @@
 server:
-  port: 18091
+  port: 18092
 spring:
   cloud:
     nacos:
@@ -36,3 +36,10 @@ feign:
 logging:
   level:
     com.atguigu.gmall: debug
+threadPool:
+  coreSize:  100
+  maxSize:  500
+  keepAlive:  60
+  blockingSize:  10000
+
+

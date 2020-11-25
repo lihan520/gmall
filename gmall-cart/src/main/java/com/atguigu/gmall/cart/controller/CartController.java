@@ -62,6 +62,13 @@ public class CartController {
         this.cartService.deleteCart(skuId);
         return ResponseVo.ok();
     }
+   @GetMapping("user/{userId}")
+   @ResponseBody
+   public ResponseVo<List<Cart>>queryCheckedCartsByUserId(@PathVariable("userId")Long userId){
+        List<Cart>carts=this.cartService.queryCheckedCartsByUserId(userId);
+        return ResponseVo.ok(carts);
+   }
+
     @GetMapping("test")
     @ResponseBody
     public String test(HttpServletRequest request) throws ExecutionException, InterruptedException {

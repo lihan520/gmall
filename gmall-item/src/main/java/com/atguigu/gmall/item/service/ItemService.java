@@ -35,8 +35,7 @@ public class ItemService {
     public ItemVo loadData(Long skuId) {
         ItemVo itemVo = new ItemVo();
         //1、先去查询sku的信息
-        CompletableFuture<SkuEntity> skuCompletableFuture = CompletableFuture.supplyAsync(() -> {
-            ResponseVo<SkuEntity> skuEntityResponseVo = this.pmsClient.querySkuById(skuId);
+        CompletableFuture<SkuEntity> skuCompletableFuture = CompletableFuture.supplyAsync(() -> { ResponseVo<SkuEntity> skuEntityResponseVo = this.pmsClient.querySkuById(skuId);
             SkuEntity skuEntity = skuEntityResponseVo.getData();
             if (skuEntity == null) {
                 throw new RuntimeException("商品信息不存在");

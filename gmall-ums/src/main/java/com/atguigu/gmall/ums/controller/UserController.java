@@ -30,6 +30,7 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 @RestController
 @RequestMapping("ums/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
     @GetMapping("query")
